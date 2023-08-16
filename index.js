@@ -1,7 +1,20 @@
-const express = require('express')
-const app = express()
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
-})
-app.listen(process.env.PORT || 3000)
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+const connections = [];
+
+wss.on('connection', (ws) => {
+  connections.push(ws);
+
+  // Send a message to the client
+  ws.send('Hello, client!');
+});
+
+// Send a message to all connected clients every second
+setInterval(() => {
+  const message = 'This is a message from the server';
+  connections.forEach((ws) => {
+    ws.send(message);
+  });
+}, 1000);
