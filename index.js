@@ -7,12 +7,6 @@ const connections = [];
 wss.on('connection', (ws) => {
   connections.push(ws);
 
-  ws.on('message', (message) => {
-    // Handle incoming message (in this case, assuming it's a URL)
-    console.log('Received URL:', message);
-    // You can do something with the URL here
-  });
-
   // Send a message to the client
   ws.send('Hello, client!');
 });
